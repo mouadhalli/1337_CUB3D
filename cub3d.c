@@ -85,14 +85,12 @@ int			main(int c, char **v)
 		print_error("map not found");
 	g_ptr.mlx_win = mlx_new_window(g_ptr.mlx_ptr, g_ptr.width,
 		g_ptr.height, "Jumia_Cub3D");
-	// g_ptr.mlx_img = mlx_new_image(g_ptr.mlx_ptr, g_ptr.width, g_ptr.height);
-	// g_data = (int*)mlx_get_data_addr(g_ptr.mlx_img, &g_me, &g_me, &g_me);
-	// if (c > 3 || (c > 2 && ft_strncmp(v[2], "--save", 7)))
-	// 	print_error("invalid argument after .cub!!");
-	// if (c > 2 && !ft_strncmp(v[2], "--save", 7))
-	// 	make_bmp();
-	// mlx_loop_hook(g_ptr.mlx_ptr, move_p, &g_pl);
-	// mlx_loop(g_ptr.mlx_ptr);
-	while (1)
-		;
+	g_ptr.mlx_img = mlx_new_image(g_ptr.mlx_ptr, g_ptr.width, g_ptr.height);
+	g_data = (int*)mlx_get_data_addr(g_ptr.mlx_img, &g_me, &g_me, &g_me);
+	if (c > 3 || (c > 2 && ft_strncmp(v[2], "--save", 7)))
+		print_error("invalid argument after .cub!!");
+	if (c > 2 && !ft_strncmp(v[2], "--save", 7))
+		make_bmp();
+	mlx_loop_hook(g_ptr.mlx_ptr, move_p, &g_pl);
+	mlx_loop(g_ptr.mlx_ptr);
 }

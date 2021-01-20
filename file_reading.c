@@ -51,18 +51,19 @@ void		resolution(char **arg, int *argnb, char *line)
 		print_error("duplicated resolution");
 	if (count_words(line, ' ') != 3)
 		print_error("the resolution must contain two dimensions");
-	if (!check_numb(arg[1], 0, INT32_MAX)
-		|| !check_numb(arg[2], 0, INT32_MAX))
+	if (!filter_resolution(arg[1])
+		|| !filter_resolution(arg[2]))
 		print_error("invalid window width or height");
 	g_ptr.width = ft_atoi(*(arg + 1));
 	g_ptr.height = ft_atoi(*(arg + 2));
+	printf("width = |%d| --- height = |%d|\n", g_ptr.width, g_ptr.height);
 	if (g_ptr.width == 0 || g_ptr.height == 0)
 		print_error("Impossible resolution\n");
 	*argnb += 1;
-	if (g_ptr.width > 2048)
-		g_ptr.width = 2048;
-	if (g_ptr.height > 1152)
-		g_ptr.height = 1152;
+	if (g_ptr.width > 2880 || g_ptr.width < 0)
+		g_ptr.width = 2880;
+	if (g_ptr.height > 1620 || g_ptr.height < 0)
+		g_ptr.height = 1620;
 	g_ptr.projection_plane = (g_ptr.width / 2) / tan((60 * (M_PI / 180)) / 2);
 	free_arr((void **)arg, 3);
 	free(line);
@@ -116,9 +117,12 @@ void		get_cub_fl(int fd)
 			get_textures(word, &argnb, line);
 		else if (*line && is_floor_c(word[0]))
 			get_floor_ceil(word, &argnb, line);
+		else if (*line && g_map.map)
+			print_error("the map should be the last element of the file");
 		else if (*line)
 			print_error("invalid element inside the file");
 		else
 			free(line);
 	}
+	free(line);
 }

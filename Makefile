@@ -4,10 +4,11 @@ LIBS = libft/libft.a \
 
 CC = clang
 
-FLAGS = -Wall -Werror -Wextra \
+FLAGS = -Wall -Werror -Wextra -g \
 	  -I /usr/local/include \
 	  -L /usr/local/lib -lmlx \
 	  -framework OpenGL -framework AppKit \
+	#   -g -fsanitize=address
 
 MAKE = make -C
 
@@ -27,6 +28,6 @@ clean:
 
 fclean: clean
 	@$(MAKE) libft fclean
-	@rm cub3D
+	@rm -f cub3D
 
 re:	fclean all

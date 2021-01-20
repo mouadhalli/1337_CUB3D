@@ -78,7 +78,7 @@ void		add_mapline(char **buffer, char *str)
 	free(str);
 }
 
-int			get_map(char *line, int *argnb, int fd)
+void		get_map(char *line, int *argnb, int fd)
 {
 	int		len;
 	char	*buffer;
@@ -103,5 +103,4 @@ int			get_map(char *line, int *argnb, int fd)
 	anlys_map(buffer);
 	fill_map(buffer);
 	free(buffer);
-	return (0);
 }

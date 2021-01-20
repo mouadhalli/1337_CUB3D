@@ -93,3 +93,16 @@ void	make_bmp(void)
 	free(img_buf);
 	close_win();
 }
+
+int		filter_resolution(char *str)
+{
+	int		i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
+}

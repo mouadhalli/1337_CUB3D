@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int			check_numb(char *str, int min, int max)
+int			check_numb(char *str, int min, long max)
 {
 	int		i;
 	int		numb;
