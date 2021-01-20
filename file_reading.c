@@ -33,6 +33,8 @@ void		get_textures(char **filename, int *argnb, char *line)
 	side = texture_side(filename[0]);
 	if (g_txt[side].data)
 		print_error("duplicated texture");
+	if (line[(int)(ft_strlen(line) - 1)] == ' ')
+		print_error("space at the end of the element");
 	img = mlx_xpm_file_to_image(g_ptr.mlx_ptr, txtrname,
 		&(g_txt[side].width), &(g_txt[side].height));
 	if (!img)
@@ -49,6 +51,8 @@ void		resolution(char **arg, int *argnb, char *line)
 {
 	if (g_ptr.width || g_ptr.height)
 		print_error("duplicated resolution");
+	if (line[(int)(ft_strlen(line) - 1)] == ' ')
+		print_error("space at the end of the element");
 	if (count_words(line, ' ') != 3)
 		print_error("the resolution must contain two dimensions");
 	if (!filter_resolution(arg[1])
@@ -56,7 +60,6 @@ void		resolution(char **arg, int *argnb, char *line)
 		print_error("invalid window width or height");
 	g_ptr.width = ft_atoi(*(arg + 1));
 	g_ptr.height = ft_atoi(*(arg + 2));
-	printf("width = |%d| --- height = |%d|\n", g_ptr.width, g_ptr.height);
 	if (g_ptr.width == 0 || g_ptr.height == 0)
 		print_error("Impossible resolution\n");
 	*argnb += 1;
@@ -77,13 +80,13 @@ void		get_floor_ceil(char **colors, int *argnb, char *line)
 	if ((colors[0][0] == 'F' && g_ptr.floor)
 		|| (colors[0][0] == 'C' && g_ptr.ceil))
 		print_error("duplicated Floor or ceiling color");
+	if (line[(int)(ft_strlen(line) - 1)] == ' ')
+		print_error("space at the end of the element");
 	color = ft_split(colors[1], ',');
-	if (count_words(line, ' ') != 2
-		|| (count_words(colors[1], ',') != 3)
+	if (count_words(line, ' ') != 2 || (count_words(colors[1], ',') != 3)
 		|| (count_chars(colors[1], ',') != 2))
 		print_error("invalid RGB combination");
-	if (!check_numb(color[0], 0, 256)
-		|| !check_numb(color[1], 0, 256)
+	if (!check_numb(color[0], 0, 256) || !check_numb(color[1], 0, 256)
 		|| !check_numb(color[2], 0, 256))
 		print_error("invalid color");
 	*argnb += 1;
