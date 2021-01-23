@@ -31,7 +31,7 @@ int			pl_colision(float x, float y)
 	return (0);
 }
 
-int			g_wall_at(float x, float y)
+int			wall_at(float x, float y)
 {
 	int		index_x;
 	int		index_y;
@@ -90,7 +90,7 @@ int			main(int c, char **v)
 	if (c > 3 || (c > 2 && ft_strncmp(v[2], "--save", 7)))
 		print_error("invalid argument after .cub!!");
 	if (c > 2 && !ft_strncmp(v[2], "--save", 7))
-		make_bmp();
+		take_screenshot();
 	mlx_loop_hook(g_ptr.mlx_ptr, move_p, &g_pl);
 	mlx_loop(g_ptr.mlx_ptr);
 }

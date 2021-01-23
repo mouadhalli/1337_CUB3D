@@ -64,13 +64,18 @@ void		clean_mapline(char **lines, int *player, int i)
 		print_error("bad element in the map\n");
 	while (lines[i][j])
 	{
-		if (ft_isalpha(lines[i][j]))
-			*player += 1;
-		if (lines[i][j] == '0' || lines[i][j] == '2' || ft_isalpha(lines[i][j]))
+		if (lines[i][j] == '0' || lines[i][j] == '2')
 		{
 			if ((int)ft_strlen(lines[i - 1]) - 1 < j || lines[i - 1][j] == ' '
 			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' ')
-				print_error("bad element arround |0| or |SPRITE| or |PLAYER|");
+				print_error("bad element arround |0| or |SPRITE|");
+		}
+		if (ft_isalpha(lines[i][j]))
+		{
+			*player += 1;
+			if ((int)ft_strlen(lines[i - 1]) - 1 < j || lines[i - 1][j] == ' '
+			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' ')
+				print_error("bad element arround |PLAYER|");
 		}
 		j++;
 	}

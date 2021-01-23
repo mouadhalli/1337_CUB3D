@@ -17,9 +17,9 @@ void			init_wall(t_rays *rays, int i)
 	g_wall.perpdistance = rays[i].distance *
 		cos(rays[i].ray_angle - g_pl.rotationangle);
 	g_wall.distanceprojplane = (g_ptr.width / 2) / tan((60 * (M_PI / 180)) / 2);
-	g_wall.projectedg_wallheight = (TILE_SIZE / g_wall.perpdistance) *
+	g_wall.projectedwallheight = (TILE_SIZE / g_wall.perpdistance) *
 		g_wall.distanceprojplane;
-	g_wall.g_wallstripheight = (int)g_wall.projectedg_wallheight;
+	g_wall.wallstripheight = (int)g_wall.projectedwallheight;
 }
 
 double			f_mod(double a, double b)
@@ -41,24 +41,22 @@ void			which_texture(int *txt, int i, t_rays *rays)
 
 void			draw_texture(int px, int i, t_rays *rays)
 {
-	int		*tmp;
 	int		side;
 	int		offset_x;
 	int		offset_y;
 	int		textrtop;
 
 	which_texture(&side, i, rays);
-	tmp = (int*)mlx_get_data_addr(g_ptr.mlx_img, &g_me, &g_me, &g_me);
 	if (rays[i].washit_vertical)
-		offset_x = f_mod(rays[i].g_wallhit_y, TILE_SIZE) *
+		offset_x = f_mod(rays[i].wallhit_y, TILE_SIZE) *
 			(g_txt[side].width / TILE_SIZE);
 	else
-		offset_x = f_mod(rays[i].g_wallhit_x, TILE_SIZE) *
+		offset_x = f_mod(rays[i].wallhit_x, TILE_SIZE) *
 			(g_txt[side].width / TILE_SIZE);
-	textrtop = px + (g_wall.g_wallstripheight / 2) - (g_ptr.height / 2);
+	textrtop = px + (g_wall.wallstripheight / 2) - (g_ptr.height / 2);
 	offset_y = textrtop * ((float)g_txt[side].height
-		/ g_wall.g_wallstripheight);
-	tmp[i + ((g_ptr.width) * px)] = g_txt[side].data[offset_x +
+		/ g_wall.wallstripheight);
+	g_data[i + ((g_ptr.width) * px)] = g_txt[side].data[offset_x +
 		(offset_y * g_txt[side].width)];
 }
 
@@ -66,27 +64,27 @@ void			render_walls(t_rays *rays)
 {
 	int		i;
 	int		px;
-	int		g_walltop_px;
-	int		g_wallbottom_px;
+	int		walltop_px;
+	int		wallbottom_px;
 
 	i = -1;
 	while (++i < g_ptr.width)
 	{
 		init_wall(rays, i);
-		g_walltop_px = (g_ptr.height / 2) - (g_wall.g_wallstripheight / 2);
-		g_walltop_px = g_walltop_px < 0 ? 0 : g_walltop_px;
-		g_wallbottom_px = (g_ptr.height / 2) + (g_wall.g_wallstripheight / 2);
-		g_wallbottom_px = g_wallbottom_px > g_ptr.height
-			? g_ptr.height : g_wallbottom_px;
+		walltop_px = (g_ptr.height / 2) - (g_wall.wallstripheight / 2);
+		walltop_px = walltop_px < 0 ? 0 : walltop_px;
+		wallbottom_px = (g_ptr.height / 2) + (g_wall.wallstripheight / 2);
+		wallbottom_px = wallbottom_px > g_ptr.height
+			? g_ptr.height : wallbottom_px;
 		px = -1;
 		while (++px < g_ptr.height)
 		{
-			if (px < g_walltop_px)
-				my_mlx_pixel_put(i, px, g_ptr.ceil, g_ptr.mlx_img);
-			else if (px >= g_walltop_px && px < g_wallbottom_px)
+			if (px < walltop_px)
+				g_data[i + (px * g_ptr.width)] = g_ptr.ceil;
+			else if (px >= walltop_px && px < wallbottom_px)
 				draw_texture(px, i, rays);
-			else if (px >= g_wallbottom_px)
-				my_mlx_pixel_put(i, px, g_ptr.floor, g_ptr.mlx_img);
+			else if (px >= wallbottom_px)
+				g_data[i + (px * g_ptr.width)] = g_ptr.floor;
 		}
 	}
 }

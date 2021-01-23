@@ -34,7 +34,7 @@ void		get_textures(char **filename, int *argnb, char *line)
 	if (g_txt[side].data)
 		print_error("duplicated texture");
 	if (line[(int)(ft_strlen(line) - 1)] == ' ')
-		print_error("space at the end of the element");
+		print_error("space at the end of a texture element");
 	img = mlx_xpm_file_to_image(g_ptr.mlx_ptr, txtrname,
 		&(g_txt[side].width), &(g_txt[side].height));
 	if (!img)
@@ -52,7 +52,7 @@ void		resolution(char **arg, int *argnb, char *line)
 	if (g_ptr.width || g_ptr.height)
 		print_error("duplicated resolution");
 	if (line[(int)(ft_strlen(line) - 1)] == ' ')
-		print_error("space at the end of the element");
+		print_error("space at the end of resolution element");
 	if (count_words(line, ' ') != 3)
 		print_error("the resolution must contain two dimensions");
 	if (!filter_resolution(arg[1])
@@ -81,7 +81,7 @@ void		get_floor_ceil(char **colors, int *argnb, char *line)
 		|| (colors[0][0] == 'C' && g_ptr.ceil))
 		print_error("duplicated Floor or ceiling color");
 	if (line[(int)(ft_strlen(line) - 1)] == ' ')
-		print_error("space at the end of the element");
+		print_error("space at the end of floor or ceiling element");
 	color = ft_split(colors[1], ',');
 	if (count_words(line, ' ') != 2 || (count_words(colors[1], ',') != 3)
 		|| (count_chars(colors[1], ',') != 2))

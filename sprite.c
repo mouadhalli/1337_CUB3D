@@ -33,9 +33,7 @@ void		draw_sprite(int x, float distance, float height, t_rays *rays)
 	int		j;
 	int		y_offset;
 	int		color;
-	int		*tmp;
 
-	tmp = (int*)mlx_get_data_addr(g_ptr.mlx_img, &g_me, &g_me, &g_me);
 	i = x - 1;
 	while (++i < x + height)
 	{
@@ -48,7 +46,7 @@ void		draw_sprite(int x, float distance, float height, t_rays *rays)
 				color = g_txt[4].data[(int)(y_offset / height * g_txt[4].height)
 				* g_txt[4].width + (int)((i - x) / height * g_txt[4].width)];
 				if (j < g_ptr.height && j >= 0 && color != 0x00000)
-					tmp[(j) * g_ptr.width + (i)] = color;
+					g_data[(j) * g_ptr.width + (i)] = color;
 				j++;
 				y_offset++;
 			}

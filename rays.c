@@ -58,17 +58,17 @@ void		cast_ray(t_rays *rays, float rayangle, int i)
 	if (rays->verthitdistance < rays->horzhitdistance)
 	{
 		rays[i].distance = rays->verthitdistance;
-		rays[i].g_wallhit_x = g_ray.vertihitx;
-		rays[i].g_wallhit_y = g_ray.vertihity;
-		rays[i].g_wallhitcontent = g_ray.vertihitcont;
+		rays[i].wallhit_x = g_ray.vertihitx;
+		rays[i].wallhit_y = g_ray.vertihity;
+		rays[i].wallhitcontent = g_ray.vertihitcont;
 		rays[i].washit_vertical = TRUE;
 	}
 	else
 	{
 		rays[i].distance = rays->horzhitdistance;
-		rays[i].g_wallhit_x = g_ray.horzhitx;
-		rays[i].g_wallhit_y = g_ray.horzhity;
-		rays[i].g_wallhitcontent = g_ray.horzhitcont;
+		rays[i].wallhit_x = g_ray.horzhitx;
+		rays[i].wallhit_y = g_ray.horzhity;
+		rays[i].wallhitcontent = g_ray.horzhitcont;
 		rays[i].washit_vertical = FALSE;
 	}
 }

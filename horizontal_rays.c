@@ -38,7 +38,7 @@ void		horizcheck(float xstep, float ystep)
 	{
 		g_ray.xtocheck = nexthorzx;
 		g_ray.ytocheck = nexthorzy + (g_ray.israyfacingup ? -1 : 0);
-		if (g_wall_at(g_ray.xtocheck, g_ray.ytocheck))
+		if (wall_at(g_ray.xtocheck, g_ray.ytocheck))
 		{
 			horz_inter(nexthorzx, nexthorzy);
 			break ;

@@ -38,7 +38,7 @@ void		verticheck(float xstep, float ystep)
 	{
 		g_ray.xtocheck = nextvertx + (g_ray.israyfacingleft ? -1 : 0);
 		g_ray.ytocheck = nextverty;
-		if (g_wall_at(g_ray.xtocheck, g_ray.ytocheck))
+		if (wall_at(g_ray.xtocheck, g_ray.ytocheck))
 		{
 			vert_inter(nextvertx, nextverty);
 			break ;

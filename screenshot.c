@@ -5,104 +5,101 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhalli <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 14:39:44 by mhalli            #+#    #+#             */
-/*   Updated: 2021/01/02 14:39:45 by mhalli           ###   ########.fr       */
+/*   Created: 2021/01/22 18:25:24 by mhalli            #+#    #+#             */
+/*   Updated: 2021/01/22 18:25:26 by mhalli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	*make_bmp_header(t_bitmapheader *header)
+static	int			create_file(char *file_name)
 {
-	char	*buf;
+	int	fd;
 
-	buf = ft_calloc(54, 1);
-	header->bit_count = 24;
-	header->width_in_bytes = ((g_ptr.width * header->bit_count + 31)
-	/ 32) * 4;
-	header->image_size = header->width_in_bytes * g_ptr.height;
-	header->size = 54 + header->image_size;
-	header->off_bits = 54;
-	header->info_size = 40;
-	header->planes = 1;
-	header->width = g_ptr.width;
-	header->height = g_ptr.height;
-	ft_memcpy(buf, "BM", 2);
-	ft_memcpy(buf + 2, &(header->size), 4);
-	ft_memcpy(buf + 10, &(header->off_bits), 4);
-	ft_memcpy(buf + 14, &(header->info_size), 4);
-	ft_memcpy(buf + 18, &(header->width), 4);
-	ft_memcpy(buf + 22, &(header->height), 4);
-	ft_memcpy(buf + 26, &(header->planes), 2);
-	ft_memcpy(buf + 28, &(header->bit_count), 2);
-	ft_memcpy(buf + 34, &(header->image_size), 4);
-	return (buf);
+	if (!((fd = open(file_name, O_WRONLY | O_CREAT |
+	O_TRUNC, S_IRUSR | S_IWUSR)) > 0))
+		print_error("Screenshot problem");
+	return (fd);
 }
 
-int		*get_colors(int color)
+static	void		head_make(t_bmp_file *info_bmp_file)
 {
-	int *colors;
-
-	colors = malloc(3 * sizeof(int));
-	colors[0] = ((color >> 16) & 0xFF);
-	colors[1] = ((color >> 8) & 0xFF);
-	colors[2] = ((color) & 0xFF);
-	return (colors);
+	info_bmp_file->bftype[0] = 0x42;
+	info_bmp_file->bftype[1] = 0x4D;
+	info_bmp_file->bfsize = (g_ptr.width * g_ptr.height * 4) + 54;
+	info_bmp_file->bfreserved1 = 0x00000000;
+	info_bmp_file->bfoffbits = 0x36;
+	info_bmp_file->bisize = 40;
+	info_bmp_file->biwidth = g_ptr.width;
+	info_bmp_file->biheight = g_ptr.height * -1;
+	info_bmp_file->biplanes = 1;
+	info_bmp_file->bibitcount = 32;
+	info_bmp_file->bicompression = 0;
+	info_bmp_file->bisizeimage = (g_ptr.width * g_ptr.height * 4);
+	info_bmp_file->bixpermeter = 2835;
+	info_bmp_file->biypermeter = 2835;
+	info_bmp_file->biclrused = 0;
+	info_bmp_file->biclrimportant = 0;
 }
 
-char	*make_img_buff(t_bitmapheader *header)
+static	void		head_write(int fd, t_bmp_file info_bmp_file)
 {
-	char	*buf;
+	int			r;
+
+	r = 0;
+	r = write(fd, &info_bmp_file.bftype, 2);
+	r = write(fd, &info_bmp_file.bfsize, 4);
+	r = write(fd, &info_bmp_file.bfreserved1, 4);
+	r = write(fd, &info_bmp_file.bfoffbits, 4);
+	r = write(fd, &info_bmp_file.bisize, 4);
+	r = write(fd, &info_bmp_file.biwidth, 4);
+	r = write(fd, &info_bmp_file.biheight, 4);
+	r = write(fd, &info_bmp_file.biplanes, 2);
+	r = write(fd, &info_bmp_file.bibitcount, 2);
+	r = write(fd, &info_bmp_file.bicompression, 4);
+	r = write(fd, &info_bmp_file.bisizeimage, 4);
+	r = write(fd, &info_bmp_file.bixpermeter, 4);
+	r = write(fd, &info_bmp_file.biypermeter, 4);
+	r = write(fd, &info_bmp_file.biclrused, 4);
+	r = write(fd, &info_bmp_file.biclrimportant, 4);
+	(void)r;
+}
+
+static	void		file_write(int fd, int imagesize)
+{
+	char	*pixel_array;
 	int		i;
 	int		j;
-	int		*colors;
 
-	buf = malloc(header->image_size);
-	i = header->height - 1;
-	while (i > 0)
+	if (!(pixel_array = malloc(sizeof(char) * imagesize)))
+		print_error("Error screenshot");
+	i = 0;
+	j = 0;
+	imagesize /= 4;
+	while (i < imagesize)
 	{
-		j = 0;
-		while (j < header->width)
-		{
-			colors = get_colors(g_data[((g_ptr.height - i)
-			* g_ptr.width) + j]);
-			buf[i * header->width_in_bytes + j * 3 + 2] = colors[0];
-			buf[i * header->width_in_bytes + j * 3 + 1] = colors[1];
-			buf[i * header->width_in_bytes + j * 3 + 0] = colors[2];
-			free(colors);
-			j++;
-		}
-		i--;
+		pixel_array[j++] = g_data[i] & 255;
+		pixel_array[j++] = (g_data[i] & 255 << 8) >> 8;
+		pixel_array[j++] = (g_data[i] & 255 << 16) >> 16;
+		pixel_array[j++] = 0;
+		i++;
 	}
-	return (buf);
+	j = write(fd, pixel_array, imagesize *= 4);
+	free(pixel_array);
 }
 
-void	make_bmp(void)
+void				take_screenshot(void)
 {
-	t_bitmapheader	header;
-	char			*header_str;
-	char			*img_buf;
+	t_bmp_file		info_bmp_file;
+	int				fd;
 
-	header.fd = open("./screenshot.bmp", O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
 	render();
-	header_str = make_bmp_header(&header);
-	img_buf = make_img_buff(&header);
-	write(header.fd, header_str, 54);
-	write(header.fd, img_buf, header.image_size);
-	free(header_str);
-	free(img_buf);
-	close_win();
-}
-
-int		filter_resolution(char *str)
-{
-	int		i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-	}
-	return (1);
+	ft_bzero(&info_bmp_file, sizeof(t_bmp_file));
+	fd = create_file("screenshot.bmp");
+	head_make(&info_bmp_file);
+	head_write(fd, info_bmp_file);
+	file_write(fd, info_bmp_file.bisizeimage);
+	close(fd);
+	(void)info_bmp_file;
+	exit(1);
 }

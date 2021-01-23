@@ -14,8 +14,6 @@
 # define CUB3D_H
 # include "./libft/libft.h"
 # include "./GNL/get_next_line.h"
-# include <stdio.h>
-# include <string.h>
 # include <stdlib.h>
 # include <mlx.h>
 # include <limits.h>
@@ -89,8 +87,8 @@ typedef	struct	s_map {
 typedef	struct	s_rays
 {
 	float		ray_angle;
-	float		g_wallhit_x;
-	float		g_wallhit_y;
+	float		wallhit_x;
+	float		wallhit_y;
 	float		distance;
 	int			washit_vertical;
 	int			washit_horizontal;
@@ -98,7 +96,7 @@ typedef	struct	s_rays
 	int			israyfacing_down;
 	int			israyfacing_left;
 	int			israyfacing_right;
-	int			g_wallhitcontent;
+	int			wallhitcontent;
 	float		horzhitdistance;
 	float		verthitdistance;
 }				t_rays;
@@ -114,8 +112,8 @@ typedef struct	s_walls
 {
 	float		perpdistance;
 	float		distanceprojplane;
-	float		projectedg_wallheight;
-	int			g_wallstripheight;
+	float		projectedwallheight;
+	int			wallstripheight;
 }				t_walls;
 
 typedef struct	s_rayang
@@ -138,20 +136,25 @@ typedef struct	s_rayang
 	float		ytocheck;
 }				t_rayang;
 
-typedef struct	s_bitmapheader
+typedef	struct	s_bmp_header
 {
-	uint32_t	file_size;
-	uint32_t	off_bits;
-	uint32_t	size;
-	uint32_t	info_size;
-	int32_t		width;
-	int32_t		height;
-	uint16_t	planes;
-	uint16_t	bit_count;
-	uint32_t	image_size;
-	int			width_in_bytes;
-	int			fd;
-}				t_bitmapheader;
+	char		bftype[3];
+	u_int32_t	bfsize;
+	u_int16_t	bfreserved1;
+	u_int16_t	bfreserved2;
+	u_int32_t	bfoffbits;
+	u_int32_t	bisize;
+	int32_t		biwidth;
+	int32_t		biheight;
+	u_int16_t	biplanes;
+	u_int16_t	bibitcount;
+	u_int32_t	bicompression;
+	u_int32_t	bisizeimage;
+	int32_t		bixpermeter;
+	int32_t		biypermeter;
+	u_int32_t	biclrused;
+	u_int32_t	biclrimportant;
+}				t_bmp_file;
 
 t_window		g_ptr;
 t_map			g_map;
@@ -172,7 +175,7 @@ int				move_p();
 int				moove_player(int key);
 int				reset_player(int key);
 int				close_win(void);
-int				g_wall_at(float x, float y);
+int				wall_at(float x, float y);
 void			free_arr(void **arr, int len);
 void			init_player(int i, int j);
 void			cast_ray(t_rays *rays, float rayangle, int i);
@@ -182,7 +185,6 @@ float			distancebetweenpoints(float x1, float y1, float x2, float y2);
 float			normalized_angle(float angle);
 int				rgb(int r, int g, int b);
 void			moove_pl();
-void			my_mlx_pixel_put(int x, int y, int color, void *img);
 void			render_walls(t_rays *rays);
 void			render_sprite(t_rays *rays);
 void			init_ray(float rayangle);
@@ -208,5 +210,6 @@ void			init_sprite(int i, int j, char *array);
 void			make_bmp();
 void			init_txt_and_colors();
 char			*filter_txtr(char *txtr);
+void			take_screenshot(void);
 
 #endif

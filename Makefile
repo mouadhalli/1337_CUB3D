@@ -8,7 +8,6 @@ FLAGS = -Wall -Werror -Wextra -g \
 	  -I /usr/local/include \
 	  -L /usr/local/lib -lmlx \
 	  -framework OpenGL -framework AppKit \
-	#   -g -fsanitize=address
 
 MAKE = make -C
 

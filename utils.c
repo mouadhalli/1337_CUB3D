@@ -17,14 +17,6 @@ int		rgb(int r, int g, int b)
 	return (r << 16 | g << 8 | b);
 }
 
-void	my_mlx_pixel_put(int x, int y, int color, void *img)
-{
-	int		*tmp;
-
-	tmp = (int*)mlx_get_data_addr(img, &g_me, &g_me, &g_me);
-	tmp[x + (y * g_ptr.width)] = color;
-}
-
 void	print_error(const char *error)
 {
 	ft_putstr_fd("Error\n", 0);
@@ -44,4 +36,17 @@ int		is_floor_c(char *s)
 	|| !ft_strncmp(s, "C", 2))
 		return (1);
 	return (0);
+}
+
+int		filter_resolution(char *str)
+{
+	int		i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
 }
