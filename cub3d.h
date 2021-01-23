@@ -74,7 +74,7 @@ typedef struct	s_window {
 	int			floor;
 	int			sprite_num;
 	t_sprite	sprite[500];
-	float		projection_plane;
+	float		proj_plane;
 }				t_window;
 
 typedef	struct	s_map {

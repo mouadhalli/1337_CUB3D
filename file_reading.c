@@ -67,7 +67,7 @@ void		resolution(char **arg, int *argnb, char *line)
 		g_ptr.width = 2880;
 	if (g_ptr.height > 1620 || g_ptr.height < 0)
 		g_ptr.height = 1620;
-	g_ptr.projection_plane = (g_ptr.width / 2) / tan((60 * (M_PI / 180)) / 2);
+	g_ptr.proj_plane = (g_ptr.width / 2) / tan((60 * (M_PI / 180)) / 2);
 	free_arr((void **)arg, 3);
 	free(line);
 }

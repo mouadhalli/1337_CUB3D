@@ -102,8 +102,9 @@ void		render_sprite(t_rays *rays)
 		alpha = angle - rays[0].ray_angle;
 		if (rays[0].ray_angle > (3 * M_PI) / 2 && angle <= M_PI / 3)
 			alpha += 2 * M_PI;
-		sprite_height = (TILE_SIZE / g_spr[i].distance)
-			* g_ptr.projection_plane;
+		if (alpha > 300 * (M_PI / 180))
+			alpha -= 2 * M_PI;
+		sprite_height = (TILE_SIZE / g_spr[i].distance) * g_ptr.proj_plane;
 		column_index = alpha * (g_ptr.width / (M_PI / 3)) - (sprite_height / 2);
 		draw_sprite(column_index, g_spr[i].distance, sprite_height, rays);
 		i++;

@@ -84,7 +84,7 @@ void		get_map(char *line, int *argnb, int fd)
 	char	*buffer;
 
 	if (*argnb < 8)
-		print_error("missing element");
+		print_error("missing element(s) befor the map");
 	if (g_map.map)
 		print_error("duplicated map");
 	*argnb += 1;
