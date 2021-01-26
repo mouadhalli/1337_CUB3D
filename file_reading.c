@@ -86,8 +86,8 @@ void		get_floor_ceil(char **colors, int *argnb, char *line)
 	if (count_words(line, ' ') != 2 || (count_words(colors[1], ',') != 3)
 		|| (count_chars(colors[1], ',') != 2))
 		print_error("invalid RGB combination");
-	if (!check_numb(color[0], 0, 256) || !check_numb(color[1], 0, 256)
-		|| !check_numb(color[2], 0, 256))
+	if (!check_numb(color[0], 0, 255) || !check_numb(color[1], 0, 255)
+		|| !check_numb(color[2], 0, 255))
 		print_error("invalid color");
 	*argnb += 1;
 	retrn = ((ft_atoi(color[0]) * 256 * 256) + (ft_atoi(color[1]) * 256)

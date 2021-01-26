@@ -14,7 +14,7 @@
 
 int			to_split(char c)
 {
-	if ((c == '1') || c == ' ')
+	if ((c == '1') || c == ' ' || c == '0' || c == '2')
 		return (0);
 	else
 		return (1);

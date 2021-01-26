@@ -34,6 +34,7 @@
 # define FALSE 0
 # define ESC 53
 # define TILE_SIZE 64
+# define FOV 1.047197
 
 typedef	struct	s_point
 {

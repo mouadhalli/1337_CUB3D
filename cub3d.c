@@ -75,8 +75,9 @@ int			main(int c, char **v)
 
 	fd = 0;
 	if ((c < 2 || (fd = open(v[1], O_RDONLY)) < 0)
-	|| ft_strncmp(*(v + 1) + ft_strlen(v[1]) - 4, ".cub", 4))
-		print_error("invalid .cub file path");
+	|| ft_strncmp(*(v + 1) + ft_strlen(v[1]) - 4, ".cub", 4)
+	|| ft_strlen(*(v + 1)) < 5)
+		print_error("invalid file path or extension");
 	g_ptr.mlx_ptr = mlx_init();
 	g_txt = ft_calloc(5, sizeof(t_texture));
 	init_txt_and_colors();

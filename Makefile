@@ -1,8 +1,10 @@
+.PHONY: re clean fclean
+
 NAME = cub3D
 
 LIBS = libft/libft.a \
 
-CC = clang
+CC = gcc
 
 FLAGS = -Wall -Werror -Wextra -g \
 	  -I /usr/local/include \
