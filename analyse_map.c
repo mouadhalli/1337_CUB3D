@@ -59,25 +59,28 @@ void		clean_mapline(char **lines, int *player, int i)
 {
 	int		j;
 
-	j = 0;
+	j = -1;
 	if (!filter_row(lines[i], "012NSEW "))
-		print_error("bad element in the map\n");
-	while (lines[i][j])
+		print_error("bad element inside the map\n");
+	while (lines[i][++j])
 	{
 		if (lines[i][j] == '0' || lines[i][j] == '2')
 		{
 			if ((int)ft_strlen(lines[i - 1]) - 1 < j || lines[i - 1][j] == ' '
-			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' ')
+			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' '
+			|| lines[i][j - 1] == ' ' || lines[i][j + 1] == ' '
+			|| !lines[i][j + 1] || !lines[i][j - 1])
 				print_error("bad element arround |0| or |SPRITE|");
 		}
 		if (ft_isalpha(lines[i][j]))
 		{
 			*player += 1;
 			if ((int)ft_strlen(lines[i - 1]) - 1 < j || lines[i - 1][j] == ' '
-			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' ')
+			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' '
+			|| lines[i][j - 1] == ' ' || lines[i][j + 1] == ' '
+			|| !lines[i][j + 1] || !lines[i][j - 1])
 				print_error("bad element arround |PLAYER|");
 		}
-		j++;
 	}
 }
 
@@ -91,7 +94,7 @@ void		anlys_map(char *buffer)
 	player = 0;
 	lines = ft_split(buffer, '\n');
 	if (!filter_row(lines[0], "1 ")
-	|| !filter_row(lines[g_map.num_rows - 1], "1 "))
+	|| !filter_row(lines[g_map.num_rows - 1], "1 ") || g_map.num_rows < 2)
 		print_error("the map must be closed with walls");
 	while (++i < g_map.num_rows - 1)
 		clean_mapline(lines, &player, i);
