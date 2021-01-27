@@ -6,7 +6,7 @@ LIBS = libft/libft.a \
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra -g \
+FLAGS = -Wall -Werror -Wextra \
 	  -I /usr/local/include \
 	  -L /usr/local/lib -lmlx \
 	  -framework OpenGL -framework AppKit \

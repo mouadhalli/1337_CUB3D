@@ -212,5 +212,6 @@ void			make_bmp();
 void			init_txt_and_colors();
 char			*filter_txtr(char *txtr);
 void			take_screenshot(void);
+void			file_path_checker(int *fd, int c, char **v);
 
 #endif
