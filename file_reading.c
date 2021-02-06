@@ -101,6 +101,8 @@ void		get_floor_ceil(char **colors, int *argnb, char *line)
 	free(line);
 }
 
+
+
 void		get_cub_fl(int fd)
 {
 	char	*line;
@@ -114,14 +116,14 @@ void		get_cub_fl(int fd)
 			word = ft_split(line, ' ');
 		if (*line && !to_split(*line))
 			get_map(line, &argnb, fd);
+		else if (*line && g_map.map)
+			print_error("the map should be the last element of the file");
 		else if (*line && (!ft_strncmp(word[0], "R", 2)))
 			resolution(word, &argnb, line);
 		else if (*line && is_txtr(word[0]))
 			get_textures(word, &argnb, line);
 		else if (*line && is_floor_c(word[0]))
 			get_floor_ceil(word, &argnb, line);
-		else if (*line && g_map.map)
-			print_error("the map should be the last element of the file");
 		else if (*line)
 			print_error("invalid element inside the file");
 		else

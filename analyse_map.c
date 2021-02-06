@@ -66,7 +66,8 @@ void		clean_mapline(char **lines, int *player, int i)
 	{
 		if (lines[i][j] == '0' || lines[i][j] == '2')
 		{
-			if ((int)ft_strlen(lines[i - 1]) - 1 < j || lines[i - 1][j] == ' '
+			if (lines[i][0] || (int)ft_strlen(lines[i - 1]) - 1 < j
+			|| lines[i - 1][j] == ' '
 			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' '
 			|| lines[i][j - 1] == ' ' || lines[i][j + 1] == ' '
 			|| !lines[i][j + 1] || !lines[i][j - 1])
@@ -75,7 +76,8 @@ void		clean_mapline(char **lines, int *player, int i)
 		if (ft_isalpha(lines[i][j]))
 		{
 			*player += 1;
-			if ((int)ft_strlen(lines[i - 1]) - 1 < j || lines[i - 1][j] == ' '
+			if (lines[i][0] || (int)ft_strlen(lines[i - 1]) - 1 < j
+			|| lines[i - 1][j] == ' '
 			|| (int)ft_strlen(lines[i + 1]) - 1 < j || lines[i + 1][j] == ' '
 			|| lines[i][j - 1] == ' ' || lines[i][j + 1] == ' '
 			|| !lines[i][j + 1] || !lines[i][j - 1])

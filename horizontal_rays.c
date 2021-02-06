@@ -72,7 +72,8 @@ void		file_path_checker(int *fd, int c, char **v)
 {
 	if (c < 2 || (*fd = open(v[1], O_RDONLY)) < 0)
 		print_error("invalid file");
-	if (ft_strlen(*(v + 1)) > 4 && !ft_strncmp(*(v + 1) + ft_strlen(v[1]) - 5, "/.cub", 4))
+	if (ft_strlen(*(v + 1)) > 4 && !ft_strncmp(*(v + 1)
+		+ ft_strlen(v[1]) - 5, "/.cub", 4))
 		print_error("file name must contain .cub extension");
 	if (ft_strncmp(*(v + 1) + ft_strlen(v[1]) - 4, ".cub", 4)
 		|| ft_strlen(*(v + 1)) < 5)

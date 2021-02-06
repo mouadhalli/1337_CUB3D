@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mhalli <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/01/27 11:40:36 by mhalli            #+#    #+#              #
+#    Updated: 2021/01/27 11:40:40 by mhalli           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 .PHONY: re clean fclean
 
 NAME = cub3D
@@ -6,7 +18,7 @@ LIBS = libft/libft.a \
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra \
+FLAGS = -Wall -Werror -Wextra -g -fsanitize=address\
 	  -I /usr/local/include \
 	  -L /usr/local/lib -lmlx \
 	  -framework OpenGL -framework AppKit \
